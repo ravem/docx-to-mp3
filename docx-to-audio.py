@@ -1,38 +1,34 @@
+import asyncio
 from docx import Document
-from gtts import gTTS
-import re
+import edge_tts
 
 def docx_to_text(docx_file):
-    """Estrae tutto il testo da un file .docx, aggiungendo pause naturali tra paragrafi e punteggiatura."""
+    """Estrae tutto il testo da un file .docx, aggiungendo micro‑pause e pause tra paragrafi."""
     doc = Document(docx_file)
     text = ''
     for paragraph in doc.paragraphs:
         line = paragraph.text.strip()
         if line:
-            # Aggiunge micro-pause dopo la punteggiatura
-            line = re.sub(r'([.,;:])', r'\1 …', line)
-            
-            # Aggiunge pause più lunghe tra paragrafi
+            # micro‑pause dopo punteggiatura
+            line = line.replace('.', '. …').replace(',', ', …').replace(';', '; …').replace(':', ': …')
+            # pausa più lunga tra paragrafi
             if len(line) < 50:
-                text += line + '\n'       # breve pausa
+                text += line + '\n'
             elif len(line) < 150:
-                text += line + '\n\n'     # pausa media
+                text += line + '\n\n'
             else:
-                text += line + '\n\n\n'   # pausa lunga
+                text += line + '\n\n\n'
     return text.strip()
 
-def text_to_speech(text, output_file, language='it', slow=False):
-    """Converte il testo in audio MP3 usando gTTS (lettura naturale e scorrevole)."""
-    tts = gTTS(text=text, lang=language, slow=slow)
-    tts.save(output_file)
-    print(f"✅ Audio creato con successo: {output_file}")
+async def text_to_speech_edge(text, output_file, voice="it-IT-IsabellaNeural", rate="+0%"):
+    """Usa edge‑tts per creare il file MP3."""
+    communicate = edge_tts.Communicate(text, voice=voice, rate=rate)
+    await communicate.save(output_file)
+    print(f"✅ Audio generato: {output_file}")
 
 if __name__ == "__main__":
-    docx_file = "1.docx"      # Nome del tuo file Word
-    output_file = "1.mp3"     # Nome del file audio di uscita
-
-    # Estrai il testo con pause dinamiche e micro-pause
+    docx_file = "1.docx"
+    output_file = "1.mp3"
     text_content = docx_to_text(docx_file)
-
-    # Converti in voce italiana, lettura più veloce e naturale
-    text_to_speech(text_content, output_file, language='it', slow=False)
+    # Esegui l’async
+    asyncio.run(text_to_speech_edge(text_content, output_file, voice="it-IT-IsabellaNeural"))
