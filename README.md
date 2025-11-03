@@ -15,12 +15,12 @@ Lo script include pause dinamiche tra paragrafi e micro-pause dopo la punteggiat
 - Python 3.7 o superiore.
 - Moduli Python necessari:
   - `python-docx` (per leggere file Word)
-  - `gTTS` (per la conversione in audio MP3)
+  - `edge-tts` (per la conversione in audio MP3)
 
 ### Installazione dei moduli
 
 ```bash
-pip install python-docx gTTS
+pip install python-docx edge-tts 
 ```
 
 ## Utilizzo
