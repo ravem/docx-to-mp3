@@ -6,9 +6,9 @@ Lo script include pause dinamiche tra paragrafi e micro-pause dopo la punteggiat
 ## Caratteristiche
 
 - Estrazione automatica del testo dai file `.docx`.
-- Conversione del testo in voce italiana utilizzando `gTTS`.
+- Conversione del testo in voce italiana utilizzando `edge-TTS`.
 - Lettura naturale con pause dinamiche tra paragrafi e micro-pause dopo punteggiatura.
-- Velocità di lettura regolabile (`slow=True` per lenta, `slow=False` per naturale e più veloce).
+- Velocità di lettura regolabile (tramite il parametro `rate`).
 
 ## Requisiti
 
@@ -29,11 +29,7 @@ Posizionare il file .docx nella stessa cartella dello script.
 Aggiornare il nome o il percorso dei file di input e output nello script, se necessario.
 
 ## Opzioni
-Velocità di lettura: modificabile tramite il parametro slow in text_to_speech:
-
-slow=True → lettura lenta e scandita
-slow=False → lettura naturale e veloce
-
+Velocità di lettura: modificabile 
 Pause tra paragrafi: dinamiche in base alla lunghezza del paragrafo.
 Micro-pause: inserite automaticamente dopo la punteggiatura principale per una lettura più naturale.
 
